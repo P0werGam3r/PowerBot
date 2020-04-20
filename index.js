@@ -92,6 +92,9 @@ client.on('message', message => {
 				if(!message.guild.me.hasPermission("BAN_MEMBERS")) {
 					return message.channel.send(`**${message.author.username}**, I do not have enough permission to use this command`)
 				  }
+				if(!message.target.hasPermission("BAN_MEMBERS")) {
+					return message.channel.send(`**${message.author.username}**, I do not have enough permission to use this command`)
+				  }
 				  let target = message.mentions.members.first();
 		
 				  if(!target) {
