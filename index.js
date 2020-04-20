@@ -64,6 +64,9 @@ client.on('message', message => {
 			if(!message.guild.me.hasPermission("KICK_MEMBERS")) {
 				return message.channel.send(`**${message.author.username}**, I do not have enough permission to use this command`)
 			  }
+			if(!message.target.hasPermission("KICK_MEMBERS")) {
+				return message.channel.send(`**${message.author.username}**, You can't ban that person because he have the **KICK_MEMBERS** permission`)
+			  }
 			  let target = message.mentions.members.first();
     
 			  if(!target) {
@@ -93,7 +96,7 @@ client.on('message', message => {
 					return message.channel.send(`**${message.author.username}**, I do not have enough permission to use this command`)
 				  }
 				if(!message.target.hasPermission("BAN_MEMBERS")) {
-					return message.channel.send(`**${message.author.username}**, I do not have enough permission to use this command`)
+					return message.channel.send(`**${message.author.username}**, You can't ban that person because he have the **BAN_MEMBERS** permission`)
 				  }
 				  let target = message.mentions.members.first();
 		
