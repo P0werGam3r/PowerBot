@@ -3,10 +3,32 @@ const { prefix, token } = require('./config.json');
 const fs = require('fs');
 
 const client = new Discord.Client();
+client.commands = new Discord.Collection();
+
+fs.readdir("./commands/" , (err, files) => {
+	
+	if(err) console.log(err);
+
+	var jsFiles = files.filter(f => f.split(".").pop() === "js");
+
+	if(jsFiles.length <= 0) {
+		console.log("kon geen files vinden");
+		return;
+	}
+
+	jsFiles.forEach((f, i) => {
+		var fileGet = require(`./commands/${f}`);
+		console.log(`de file ${f} is geladen`);
+
+		client.commands.set(fileGet.help.name, fileGet);
+	})
+});
+
 
 client.once('ready', () => {
     console.log('Ready!');
-    client.user.setActivity("!info", {type: "PLAYING"});
+	client.user.setActivity("!info", {type: "PLAYING"});
+	
 });
 
 client.on('message', message => {
@@ -14,6 +36,11 @@ client.on('message', message => {
 
 	const args = message.content.slice(prefix.length).split(/ +/);
 	const command = args.shift().toLowerCase();
+
+	var commands = client.commands.get(command.slice(prefix.length));
+
+	if(commands) command.run(bot,message, args);
+
 
 	//if (command === 'ping') {
 	//	message.channel.send('Pong.');
