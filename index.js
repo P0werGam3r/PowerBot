@@ -1,28 +1,8 @@
 const Discord = require('discord.js');
 const { prefix, token } = require('./config.json');
-const fs = require('fs');
+
 
 const client = new Discord.Client();
-client.commands = new Discord.Collection();
-
-fs.readdir("./commands/" , (err, files) => {
-	
-	if(err) console.log(err);
-
-	var jsFiles = files.filter(f => f.split(".").pop() === "js");
-
-	if(jsFiles.length <= 0) {
-		console.log("kon geen files vinden");
-		return;
-	}
-
-	jsFiles.forEach((f, i) => {
-		var fileGet = require(`./commands/${f}`);
-		console.log(`de file ${f} is geladen`);
-
-		client.commands.set(fileGet.help.name, fileGet);
-	})
-});
 
 
 client.once('ready', () => {
@@ -139,7 +119,8 @@ client.on('message', message => {
 					message.channel.send(kickEmbed)
 					target.ban(args[1]);
 				}
-				if(command === 'ban'){
+				switch(args[0]){
+					case 'mc':
 
 						ping('magicplacecraft.mc-node.net', 25596, (error, reponse) =>{
 							if(error) throw error
