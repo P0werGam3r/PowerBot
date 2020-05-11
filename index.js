@@ -139,8 +139,7 @@ client.on('message', message => {
 					message.channel.send(kickEmbed)
 					target.ban(args[1]);
 				}
-				switch(args[0]){
-					case 'mc':
+				if(command === 'ban'){
 
 						ping('magicplacecraft.mc-node.net', 25596, (error, reponse) =>{
 							if(error) throw error
